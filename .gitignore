@@ -1,0 +1,31 @@
+
+# Created by https://www.gitignore.io/api/vim,code,ansible,vagrant
+
+### Ansible ###
+*.retry
+
+### Code ###
+# Visual Studio Code - https://code.visualstudio.com/
+.settings/
+.vscode/
+tsconfig.json
+jsconfig.json
+
+### Vagrant ###
+.vagrant/
+*.box
+
+### Vim ###
+# swap
+.sw[a-p]
+.*.sw[a-p]
+# session
+Session.vim
+# temporary
+.netrwhist
+*~
+# auto-generated tag files
+tags
+
+
+# End of https://www.gitignore.io/api/vim,code,ansible,vagrant
