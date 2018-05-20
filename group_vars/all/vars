@@ -1,2 +1,19 @@
 ---
-letsencrypt_email: "{{ vault_email }}"
+nginx_letsencrypt_email: "{{ vault_email }}"
+
+nginx_certificates:
+  - cert_name: main
+    domains:
+      - mattnichols.app
+      - www.mattnichols.app
+      - apl.mattnichols.app
+      - music.mattnichols.app
+      - minimalpairs.mattnichols.app
+
+nginx_websites:
+  - cert_name: main
+    domain: mattnichols.app
+    directory: /srv/mattnichols
+  - cert_name: main
+    domain: www.mattnichols.app
+    redirect_domain_301: mattnichols.app

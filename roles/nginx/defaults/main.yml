@@ -1,2 +1,2 @@
 ---
-# defaults file for nginx
+nginx_resolver: 8.8.8.8
