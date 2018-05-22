@@ -1,0 +1,29 @@
+---
+- name: ensure python3-openssl is installed
+  apt: name=python3-openssl state=present
+- name: Create self-signed cert directory
+  file:
+    path: /etc/opt/selfsigned/{{ item.cert_name }}
+    state: directory
+  with_items: "{{ nginx_certificates }}"
+- name: generate private key
+  openssl_privatekey:
+    path: /etc/opt/selfsigned/{{ item.cert_name }}/privkey.pem
+  with_items: "{{ nginx_certificates }}"
+- name: generate OpenSSL CSR
+  openssl_csr:
+    path: /etc/opt/selfsigned/{{ item.cert_name }}/request.csr
+    privatekey_path: /etc/opt/selfsigned/{{ item.cert_name }}/privkey.pem
+    subject_alt_name: "{{ item.domains | map('regex_replace', '^(.*)$', 'DNS:\\1') | join(',') }}"
+  with_items: "{{ nginx_certificates }}"
+- name: OpenSSL certificate
+  openssl_certificate:
+    path: /etc/opt/selfsigned/{{ item.cert_name }}/fullchain.pem
+    privatekey_path: /etc/opt/selfsigned/{{ item.cert_name }}/privkey.pem
+    csr_path: /etc/opt/selfsigned/{{ item.cert_name }}/request.csr
+    provider: selfsigned
+    # TODO: figure out how to get it to redo the certificate if the domains change
+    # without force: true
+    force: true
+  with_items: "{{ nginx_certificates }}"
+  notify: reload nginx

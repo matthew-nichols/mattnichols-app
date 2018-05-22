@@ -1,0 +1,2 @@
+---
+nginx_certificate_directory: /etc/opt/selfsigned

@@ -1,0 +1,21 @@
+---
+- name: add certbot repo
+  apt_repository:
+    repo: ppa:certbot/certbot
+- name: install certbot
+  apt: state=present name=certbot
+# certbot will only renew on domain name change and/or nearing expiration.
+# changing --deploy-hook won't work, changing other parameters may not work
+# as well
+# also adding/removing --must-staple doesn't work
+# WARNING: --must-staple is not used because nginx doesn't send the OCSP staple
+# with the first request because reasons
+- name: activate certificates
+  command: >
+    certbot certonly --noninteractive --cert-name {{ item.cert_name }} --webroot
+    --deploy-hook "service nginx reload" -w /srv/letsencrypt
+    --agree-tos --email {{ nginx_letsencrypt_email }}
+    -d {{ item.domains | join(",") }}
+  register: certificate_action
+  changed_when: "'no action taken' not in certificate_action.stdout"
+  with_items: "{{ nginx_certificates }}"

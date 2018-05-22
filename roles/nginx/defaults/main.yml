@@ -1,2 +1,5 @@
 ---
 nginx_resolver: 8.8.8.8
+
+# can also be letsencrypt
+nginx_certificate_type: selfsigned

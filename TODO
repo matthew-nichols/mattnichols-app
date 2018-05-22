@@ -1,6 +1,3 @@
-* split out letsencrypt/ssl/nginx role
-    * allow selfsigned certificate (needed for testing to work)
-    * allow certificate update (command line change)
 * firewall
 * monit
 * unattended-upgrades
