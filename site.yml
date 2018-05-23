@@ -6,6 +6,7 @@
     - name: update apt cache
       apt: update_cache=yes cache_valid_time=86400
     - import_role: name=nginx
+    - import_role: name=ufw
     - name: index file
       copy:
         dest: /srv/mattnichols/index.html

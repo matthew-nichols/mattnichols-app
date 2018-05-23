@@ -1,0 +1,18 @@
+---
+- name: ensure ufw is installed
+  apt: name=ufw state=present
+- name: ufw open ssh
+  ufw:
+    rule: allow
+    port: 22
+    proto: tcp
+    comment: allow ssh
+- name: ufw open http(s)
+  ufw:
+    rule: allow
+    port: 80,443
+    proto: tcp
+    comment: allow http(s)
+- name: enable ufw
+  ufw:
+    state: enabled
