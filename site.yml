@@ -2,11 +2,13 @@
 - hosts: all
   become: true
   gather_facts: true
-  tasks:
+  pre_tasks:
     - name: update apt cache
       apt: update_cache=yes cache_valid_time=86400
-    - import_role: name=nginx
-    - import_role: name=ufw
+  roles:
+    - nginx
+    - ufw
+  post_tasks:
     - name: index file
       copy:
         dest: /srv/mattnichols/index.html
